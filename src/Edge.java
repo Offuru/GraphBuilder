@@ -1,11 +1,12 @@
 import java.awt.*;
-import javax.swing.*;
 
 public class Edge {
 
     Node start;
     Node end;
     Color color;
+
+    int radius = 15;
 
     public Edge(Node start, Node end, Color color) {
         this.start = start;
@@ -24,7 +25,7 @@ public class Edge {
     public void draw(Graphics g){
 
         g.setColor(color);
-        g.drawLine(start.getX(),start.getY(),end.getX(),end.getY());
+        g.drawLine(start.getX() + radius,start.getY() + radius,end.getX() + radius,end.getY() + radius);
 
     }
 

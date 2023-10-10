@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
@@ -6,7 +5,6 @@ import java.awt.*;
 public class NodeManager {
 
     public List<Node> nodeList;
-    public Color color;
 
     public NodeManager() {
         nodeList = new ArrayList<>();

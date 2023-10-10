@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Panel extends JPanel {
 
@@ -16,10 +14,6 @@ public class Panel extends JPanel {
         nodeManager = new NodeManager();
         edgeManager = new EdgeManager();
         addMouseListener(new MouseListener(this));
-    }
-
-    public NodeManager getNodeManager(){
-        return nodeManager;
     }
 
     @Override

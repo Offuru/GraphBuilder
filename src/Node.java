@@ -32,8 +32,18 @@ public class Node {
     }
 
     public void setPosition(int x, int y) {
+
         this.x = x;
         this.y = y;
+
+        if(this.x<10)
+            this.x=10;
+        if(this.y<10)
+            this.y=10;
+        if(this.x>650)
+            this.x=650;
+        if(this.y>630)
+            this.y=630;
     }
 
     public void setKey(int key) {
@@ -56,5 +66,9 @@ public class Node {
         else
             g.drawString(((Integer) key).toString(), x + radius - 5, y + radius);
 
+    }
+
+    public boolean containsPoint(Point p){
+        return p.distance(new Point(x + radius, y + radius)) <= radius;
     }
 }

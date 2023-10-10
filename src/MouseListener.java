@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.Point;
 
@@ -24,13 +23,24 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        start = e.getPoint();
 
-        for (Node node : panel.nodeManager.nodeList)
-            if (start.distance(new Point(node.getX() + radius, node.getY() + radius)) < 2 * radius + panel.minNodeDistance) {
-                startNode = node;
-                break;
-            }
+        if (startNode == null) {
+            for (Node node : panel.nodeManager.nodeList)
+                if (e.getPoint().distance(new Point(node.getX() + radius, node.getY() + radius)) <= radius)
+                    startNode = node;
+        } else {
+            for (Node node : panel.nodeManager.nodeList)
+                if (node != startNode && e.getPoint().distance(new Point(node.getX() + radius, node.getY() + radius)) <= radius)
+                    endNode = node;
+        }
+
+        if (startNode != null && endNode != null) {
+            panel.edgeManager.addEdge(startNode, endNode);
+            startNode = null;
+            endNode = null;
+        }
+
+        panel.repaint();
     }
 
     @Override
@@ -41,24 +51,19 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        for (Node node : panel.nodeManager.nodeList)
-            if (start.distance(new Point(node.getX() + radius, node.getY() + radius)) < 2 * radius + panel.minNodeDistance && node!=startNode) {
-                endNode = node;
-                break;
+        if (startNode == null) {
+
+            boolean canPlace = true;
+
+            for (Node node : panel.nodeManager.nodeList)
+                if (e.getPoint().distance(new Point(node.getX() + radius, node.getY() + radius)) <= 2 * radius + panel.minNodeDistance) {
+                    canPlace=false;
+                    break;
+                }
+            if(canPlace){
+                panel.nodeManager.addNode(e.getX() - radius, e.getY() - radius, panel.nodeCount++);
             }
-
-        if(startNode!=null && endNode!=null) {
-            panel.edgeManager.addEdge(startNode, endNode);
-            System.out.format("%d %d - %d %d", startNode.getX(),startNode.getY(),endNode.getX(),endNode.getY());
         }
-        else if(start!=null && end==null)
-            panel.nodeManager.addNode(start.x - radius,start.y - radius, panel.nodeCount++);
-
-        isDragging = false;
-        start = null;
-        end = null;
-        startNode=null;
-        endNode=null;
 
         panel.repaint();
     }
@@ -77,6 +82,8 @@ public class MouseListener implements javax.swing.event.MouseInputListener {
     public void mouseDragged(MouseEvent e) {
         isDragging = true;
         end = e.getPoint();
+
+        panel.repaint();
     }
 
     @Override

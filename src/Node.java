@@ -1,5 +1,5 @@
 import java.awt.*;
-import javax.swing.*;
+
 
 public class Node {
     private int x;
@@ -9,7 +9,7 @@ public class Node {
     private Color nodeColor;
     private final Color borderColor;
 
-    private int radius = 15;
+    private final int radius = 15;
 
     public Node(int x, int y, int key) {
         this.x = x;
@@ -42,10 +42,6 @@ public class Node {
 
     public void setColor(Color color) {
         this.nodeColor = color;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
     }
 
     public void drawNode(Graphics g) {
